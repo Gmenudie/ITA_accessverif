@@ -1,0 +1,6 @@
+dist/
+src/
+build/
+nbproject/
+manifest.mf
+.dep.inc
