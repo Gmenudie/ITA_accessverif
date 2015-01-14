@@ -17,16 +17,17 @@
 
 class Automate {
 public:
-   Automate(std::list<Etat*> listeetat ,std::list<Transition*> listetransitions , Etat* Etatinitial, Etat* Etatfinal, int dimensions);
+   Automate(std::list<Etat> etats ,std::list<Transition> transitions , Etat etatInitial,  std::list<Etat> etatsFinaux, int dimensions);
  //  Automate chargerDepuisTexte(std::string texte);
- //std::list<Etat> verifieraccessibilite();
+ std::list<Etat> verifieraccessibilite();
     
 private:
-std::list<Etat*>listeetats;
-std::list<Transition*>listetransitions;
-Etat* Etatinitial;
-Etat* Etatfinal;
+std::list<Etat> etats;
+std::list<Transition> transitions;
+Etat etatInitial;
+std::list<Etat> etatsFinaux;
 int dimensions;
+
 };
 
 

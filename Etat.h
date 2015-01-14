@@ -8,12 +8,15 @@ class Transition;
 
 class Etat {
 public:
-    Etat(std::string nom, int niveau, std::list<Transition*> transitions);
+    Etat(std::string nom, int niveau, std::list<Transition> transitions);
+
+    int getNiveau();
+    std::list<Transition> getTransitions();
     
 private:
 std::string nom;
 int niveau;
-std::list<Transition*> transitions;
+std::list<Transition> transitions;
 };
 
 

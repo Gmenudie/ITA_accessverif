@@ -16,10 +16,21 @@
 using namespace Parma_Polyhedra_Library;
 using namespace std;
 
-Transition::Transition(NNC_Polyhedron cond, Etat* pred, Etat* succ, list<Assignement> ass): 
+Transition::Transition(NNC_Polyhedron cond, Etat pred, Etat succ, list<Assignement> ass): 
 conditions(cond), predecesseur(pred), successeur(succ), assignements(ass)
 {}
-   
+
+Parma_Polyhedra_Library::NNC_Polyhedron cond getConditions(){
+	return conditions;
+} 
+
+Etat Transition::getSuccesseur(){
+	return successeur;
+}
+
+std::list<Assignement> Transition::getAssignements(){
+	return assignements;
+}
 
         
                  

@@ -12,19 +12,15 @@
 using namespace Parma_Polyhedra_Library;
 
 Assignement::Assignement(Variable var, Linear_Expression expr) : variable(var), expression(expr)
-{ 
-#include <ppl.hh>
-
-using namespace Parma_Polyhedra_Library;
-
-int main()
 {
-	NNC_Polyhedron P;
+}
 
-	return 0;
+Variable getVariable(){
+	return variable;
 }
 
 
-
+Linear_Expression getExpression(){
+	return expression;
 }
 

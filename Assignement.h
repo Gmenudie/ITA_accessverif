@@ -17,6 +17,9 @@ private:
     
 public:
     Assignement(Parma_Polyhedra_Library::Variable var, Parma_Polyhedra_Library::Linear_Expression expr);    
+    Parma_Polyhedra_Library::Variable getVariable();
+    Parma_Polyhedra_Library::Linear_Expression getExpression();
+
 };
 
 #endif	/* ASSIGNEMENT_H */

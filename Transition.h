@@ -17,13 +17,17 @@ class Etat;
 
 class Transition {
 public:
-    Transition(Parma_Polyhedra_Library::NNC_Polyhedron cond, Etat* pred, Etat* succ, std::list<Assignement> ass);    
+    Transition(Parma_Polyhedra_Library::NNC_Polyhedron cond, Etat pred, Etat succ, std::list<Assignement> ass); 
+
+    Parma_Polyhedra_Library::NNC_Polyhedron cond getConditions(); 
+    Etat getSuccesseur(); 
+    std::list<Assignement> getAssignements();
    
     
 private:
 Parma_Polyhedra_Library::NNC_Polyhedron conditions;
-Etat* predecesseur;
-Etat* successeur;
+Etat predecesseur;
+Etat successeur;
 std::list<Assignement> assignements;
 };
 

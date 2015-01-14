@@ -9,10 +9,11 @@
 #include <string>
 #include <list>
 #include <queue>
+#include <algorithme>
 #include "EtatSymbolique.h"
 
-Automate::Automate(std::list<Etat*> listeetats, std::list<Transition*>listetransitions , Etat* Etatinitial, Etat* Etatfinal, int dimensions) : 
-listeetats(listeetats), listetransitions(listetransitions), Etatinitial(Etatinitial), Etatfinal(Etatfinal), dimensions(dimensions){
+Automate::Automate(std::list<Etat> etats, std::list<Transition> transitions , Etat etatInitial, std::list<Etat> etatsFinaux, int dimensions) : 
+etats(etats), transitions(transitions), etatInitial(etatInitial), etatsFinaux(etatsFinaux), dimensions(dimensions){
 }
 
 /* Automate Automate::chargerDepuisTexte(std::string texte){
@@ -22,46 +23,59 @@ listeetats(listeetats), listetransitions(listetransitions), Etatinitial(Etatinit
 
 
 
-/* Implémente l'algorithme de vérification d'accessibilité des états finaux.
+/* Implémente l'algorithme de vérification d'accessibilité des états finaux.*/
 
-Automate::verifieraccessibilite(){
+std::list<Etat> Automate::verifieraccessibilite(){
     
     //Variables locales:
+
+    std::list<EtatSymbolique> traites, chemin, aTraiter;
+    bool atteignable, fini;
+    EtatSymbolique etatExamine(etatInitial, Parma_Polyhedra_Library::NNC_Polyhedron horloge(), NULL);
+
+    //Début: on met en pile l'état initial et on initialise les variables
+    aTraiter.push_back(etatExamine.futur());
+    atteignable=false;
     
-std::queue<EtatSymbolique> aTraiter;
-std::list<EtatSymbolique> traites, chemin;
-bool atteignable, fini;
-EtatSymbolique etatExamine(etatInitial, Polyedre horloge_nulle);
+    //Traitement: On dépile, et tant que l'état examiné n'est pas final on empile ses successeurs possibles
+    while( !aTraite.empty() && !atteignable )
+    {
+        etatExamine=aTraiter.front();
+        aTraiter.pop();
 
-//Début: on met en pile l'état initial et on initialise les variables
-aTraiter.push(etatExamine.futur())
-atteignable <- faux
-Traitement:
-On dépile, et tant que l'état examiné n'est pas final on empile ses successeurs possibles
-Tant que ( !pilevide & !atteignable )
-etatExamine <- pile.dépile()
-Si (etatExamine appartient à etatFinal )
-On est parvenus à un état final, on enregistre le chemin en remontant de père en père jusqu'à
-l'état initial (le seul dont le père est nul)
-Tant que (etatExamine.pere non nul)
-chemin.add(etatExamine)
-etatExamine=etatExamine.pere
-Fin Tant que
-atteignable <- vrai
-Sinon Si (etatExamine appartient à traites)
-L'état a déjà été traité, on l'ignore
-Sinon
-L'état n'est pas final, on ajoute ses successeurs à la pile
-traites.add(etatExamine)
-Pour tout successeur dans etatExamine.successeurs()
-pile.empile(succeur.futur())
-Fin Pour
-Fin Si
-Fin Tant que
-Renvoyer atteignable, chemin
+        //Méthode pas fantastique pour trouver si un élément appartient à une liste. Il y a peut-être mieux mais nous sommes débutants
+        std::list<Etat>::iterator it;
+        it = find (etatsFinaux.begin(), etatsFinaux.end() etatExamine.getEtat());
+        
+        if (it != etatsFinaux.end()){
 
+            // On est parvenus à un état final, on enregistre le chemin en remontant de père en père jusqu'à l'état initial (le seul dont le père est nul)
+            while(etatExamine.pere!=NULL){
+                chemin.push_back(etatExamine);
+                etatExamine=*etatExamine.getPere();
+            }
+            atteignable=true;
+        }
+        else
+        {
+            std::list<Etat>::iterator it2;
+            it2 = find (traites.begin(), traites.end() etatExamine);
+            if (it2 != traites.end()){
+                //Etat déjà traité, on l'ignore
+            }
+            else
+            {
+                traites.push_back(etatExamine);
+                std::list<EtatSymbolique> successeurs = etatExamine.successeurs();
+                //Une façon non-élégante de copier les successeurs dans aTraiter (il paraît qu'il y a de nouveaux standards pour foreach, mais pas sûr qu'ils soient compatibles avec toutes les versions de compilateur) 
+                std::list<EtatSymbolique>::iterator it3=aTraiter.end();
+                 aTraiter.splice (it2, successeurs);
+            }
+        }
+    }
+    return chemin;
 }
-*/
+
 
 
 

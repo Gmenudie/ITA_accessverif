@@ -3,11 +3,18 @@
 #include <string>
 #include <list>
 
-using namespace std;
 
 
-Etat::Etat (string nom, int niveau, list<Transition*> transitions):nom(nom), niveau(niveau), transitions(transitions)
+Etat::Etat (std::string nom, int niveau, std::list<Transition> transitions):nom(nom), niveau(niveau), transitions(transitions)
 {
 
+}
+
+int Etat::getNiveau(){
+	return niveau;
+}
+
+std::list<Transition> Etat::getTransitions(){
+	return transitions; 
 }
 
