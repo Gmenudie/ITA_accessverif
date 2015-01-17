@@ -33,6 +33,10 @@ std::list<Transition> Etat::getTransitions(){
 	return transitions; 
 }
 
+void Etat::addTransition(Transition transition){
+    transitions.push_back(transition);
+}
+
 bool Etat::equals(Etat et){
     return (this->nom==et.getNom() && this->niveau == et.getNiveau());
 }

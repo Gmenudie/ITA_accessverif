@@ -18,15 +18,19 @@ BLANC [ \n\t]
 
 TAILLE  		return TAILLE;
 ETAT			return ETAT;
+INITIAL			return INITIAL;
+FINAL			return FINAL;
 TRANSITION		return TRANSITION;
 CONDITIONS		return CONDITIONS;
 ASSIGNEMENTS	return ASSIGNEMENTS;
 
 [0-9]+      	yylval = atoi(yytext); return ENTIER;
 q[0-9]+			yylval = yytext; return NOM;
-x[0-9]+			yylval = yytext; return VAR;
+x[0-9]+			yylval = atoi(yytext+1); return VAR;
 \{				return OBRACE;
 \} 				return EBRACE;
+"<="			return MINEQUAL;
+">="			return SUPEQAUL;
 
 {BLANC}+    	;
 .           	fprintf(stderr, "Caractere (%c) non reconnu\n", yytext[0]); /* tout le reste (les règles sont évaluées de haut en bas */

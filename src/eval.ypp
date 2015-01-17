@@ -1,0 +1,174 @@
+/* -- eval.y --       
+   Evaluation d'une expression       
+   Partie analyseur grammatical.    
+
+   Utilisation : bison eval.y */
+
+%{
+#include <stdio.h>
+#include <list>
+#include <ppl.hh>
+#include "Automate.h"
+#include "Etat.h"
+#include "Transition.h"
+#include "Assignement.h"
+
+/* Pré-déclarations */
+int yylex (void);
+void yyerror (const char *);
+
+/* Variable définie dans un autre fichier */
+extern char* yytext;
+using namespace Parma_Polyhedra_Library;
+using namespace std;
+
+%}
+
+%defines /* Génère le fichier en-tête eval.tab.h */
+%parse-param {Automate *automate}
+
+%start  element /* Axiome de la grammaire */
+
+%union{
+  Constraint c;
+  Constraint_System cs;
+  Linear_Expression e;
+  int i;
+  char* str;
+  NNC_Polyhedron p;
+  Variable v;
+  Assignement a;
+  list<Assignement> la;
+}
+
+
+%token<i> ENTIER
+%token<str> NOM
+%token<str> VAR
+
+%token TAILLE  		
+%token ETAT			
+%token INITIAL			
+%token FINAL			
+%token TRANSITION		
+%token CONDITIONS		
+%token ASSIGNEMENTS	
+%token OBRACE
+%token EBRACE
+%token MINEQUAL
+%token SUPEQUAL
+
+%type<p> conditions
+%type<c> contrainte
+%type<cs> contraintes
+%type<a> formule
+%type<la> assignements formules
+%type<e> facteur expr
+
+
+%%
+
+elements   : element              
+           | elements element   
+           ;
+
+element   : etats
+          | transitions
+          | taille
+          ;
+
+taille   : TAILLE ENTIER            
+	{
+		automate->setDimensions($2);
+		std::list<Variable> variables;
+        for (int i=0; i!=$2; i++){
+            Variable A(i);
+            variables.push_back(A);            
+        }
+        automate->setVariables(variables);
+
+	}              
+         ;
+
+etats    : etat                      
+		 | etats etat 				 
+		 ;
+
+etat     : ETAT NOM ENTIER           {automate->addEtat(Etat($2,$3));}
+		 | ETAT INITIAL NOM ENTIER	 {automate->addEtatInitial(Etat($3,$4));}
+		 | ETAT FINAL NOM ENTIER	 {automate->addEtatFinal(Etat($3,$4));}
+         ;
+
+transitions : transition
+			| transitions transition
+			;
+
+transition  : TRANSITION OBRACE NOM NOM conditions assignements EBRACE  
+  {
+  	//Façon assez moche de procéder mais plutôt optimale. On passe une transition semi-complète à la classe automate qui se charge de la compléter.
+  	Transition* transition = new Transition;
+  	transition.setConditions($5);
+  	transition.setAssignements($6);
+  	automate->addTransition( transition, $3, $4 );
+  }
+
+            | TRANSITION OBRACE NOM NOM conditions EBRACE
+  {
+  	//Idem
+  	Transition transition;
+  	transition.setConditions($5);
+  	automate->addTransition( &transition, $3, $4 );
+  }
+            ;
+
+conditions  : CONDITIONS contraintes   {$$ = NNC_Polyhedron ($2);}
+            ;
+
+contraintes : contrainte     			{$$ = Constraint_Sytem ($1) ;}
+            | contraintes contrainte    {($1).insert($2) ;}
+            ;
+
+contrainte  : expr '=' expr ';'     {$$ = $1 == $3;}
+            | expr '<' expr ';'     {$$ = $1 > $3;}
+            | expr '>' expr ';'     {$$ = $1 < $3;}
+            | expr MINEQUAL expr ';'    {$$ = $1 <= $3;}
+            | expr SUPEQUAL expr ';'    {$$ = $1 >= $3;}
+            ;
+
+assignements : ASSIGNEMENTS formules  {$$=$2;}
+             ;
+
+formules  : formule    				{ list<Assignement> assignements;
+										assignements.push_back($1);
+										$$ = assignements;
+									}
+          | formules formule   		{ $1.push_back($2) ;}
+          ;
+
+formule   : VAR "=" expr ';'		{$$ = Assignement(Variable($1), Linear_Expression($3));}	
+		  ;
+
+expr      : expr '+' facteur		{$$ = $1 + $3;}
+          | expr '-' facteur		{$$ = $1 - $3;}
+          | facteur					{$$ = $1;}
+          ;
+
+facteur   : facteur '*' facteur		{$$ = Linear_Expression( $1 * $3);}
+          | ENTIER					{$$ = Linear_Expression($1);}
+          | VAR  					{$$ = Linear_Expression(Variable($1));}
+          ;
+
+
+
+
+
+%%
+#include <stdio.h>
+#include "eval.tab.h"
+
+void yyerror (const char * error) 
+{
+    fprintf (stderr, "Erreur: %s sur l'expression %s\n", error, yytext);
+}
+
+

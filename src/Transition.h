@@ -22,6 +22,11 @@ public:
     Parma_Polyhedra_Library::NNC_Polyhedron getConditions(); 
     Etat* getSuccesseur(); 
     std::list<Assignement> getAssignements();
+    
+    void setPredecesseur(Etat* pred);
+    void setSuccesseur(Etat* succs);
+    void setConditions(Parma_Polyhedra_Library::NNC_Polyhedron cond);
+    void setAssignements(std::list<Assignement> assi);
    
     
 private:

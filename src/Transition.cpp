@@ -32,6 +32,22 @@ std::list<Assignement> Transition::getAssignements(){
 	return assignements;
 }
 
+void Transition::setPredecesseur(Etat* pred){
+        predecesseur = pred;
+    }
+
+void Transition::setSuccesseur(Etat* succs){
+    successeur = succs;
+}
+
+void Transition::setConditions(NNC_Polyhedron cond){
+        conditions=cond;
+    }
+
+void Transition::setAssignements(list<Assignement> assi){
+        assignements=assi;
+    }
+
         
                  
     

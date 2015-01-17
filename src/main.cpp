@@ -19,14 +19,14 @@ using namespace Parma_Polyhedra_Library::IO_Operators;
  * 
  */
 int main(int argc, char** argv) {
-
+    /*
 	list<Etat> etats;
 	list<Transition> transitions;
 	Etat etatInitial;
 	list<Etat> etatsFinaux;
 	int dimensions=2;
 	list<Variable> variables;
-	list<EtatSymbolique> chemin;
+	
 
 
     for (int i=0; i!=dimensions; i++){
@@ -48,14 +48,19 @@ int main(int argc, char** argv) {
 
     etatsFinaux.push_back(q2);
 
-	Automate automate(etats , transitions ,  etatInitial,  etatsFinaux, dimensions, variables);
+	Automate automate(etats , transitions ,  etatInitial,  etatsFinaux, dimensions, variables);*/
+    
+    list<EtatSymbolique> chemin;
+    Automate automate;
+    
+    automate.chargerDepuisTexte("test.txt");
 
-	if(automate.verifieraccessibilite(chemin)){
-		cout << "Etat final accessible! Voilà le chemin!" ;
-	}
-	else {
-		cout << "Aucun état final atteignable!";
-	} 
+    if(automate.verifieraccessibilite(chemin)){
+            cout << "Etat final accessible! Voilà le chemin!" ;
+    }
+    else {
+            cout << "Aucun état final atteignable!";
+    } 
 
   return 0;
 }

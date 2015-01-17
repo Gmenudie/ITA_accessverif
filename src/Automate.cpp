@@ -9,19 +9,96 @@
 #include <string>
 #include <list>
 #include <algorithm>
+#include <stdio.h>
 #include "EtatSymbolique.h"
+
+int yyparse(Automate* automate);
+extern FILE* yyin;
+using namespace Parma_Polyhedra_Library;
+using namespace std;
 
 Automate::Automate(std::list<Etat> etats, std::list<Transition> transitions , Etat etatInitial, std::list<Etat> etatsFinaux, int dimensions, std::list<Parma_Polyhedra_Library::Variable> variables) : 
 etats(etats), transitions(transitions), etatInitial(etatInitial), etatsFinaux(etatsFinaux), dimensions(dimensions), variables(variables){
 }
 
-/* Automate Automate::chargerDepuisTexte(std::string texte){
-//Algorithme qui charge le texte
+void Automate::setDimensions(int dim){
+    dimensions=dim;
 }
- */
+void Automate::setVariables(std::list<Parma_Polyhedra_Library::Variable> vars){
+    variables=vars;
+}
+
+void Automate::addEtat(Etat et){
+    etats.push_back(et);
+}
+
+void Automate::addEtatInitial(Etat et){
+    etats.push_back(et);
+    etatInitial=et;
+}
+
+void Automate::addEtatFinal(Etat et){
+    etats.push_back(et);
+    etatsFinaux.push_back(et);
+}
+
+void Automate::addTransition(Transition* transition, string nompred, string nomsuccs ){
+    
+    list<Etat>::iterator it;
+    int nbmatch=0; //Enregistre le nombre d'états qu'on a trouvé (doit être 2) afin de sortir de la boucle de façon anticipée
+    Etat* pred;
+    Etat* succs;
+    
+    for(it=etats.begin(); it!=etats.end(); ++it){
+        if (it->getNom()==nompred){
+            pred=&(*it);
+            transition->setPredecesseur(pred);
+            nbmatch+=1;
+            
+        }
+        if (it->getNom()==nomsuccs){
+            succs=&(*it);
+            transition->setSuccesseur(succs);
+            nbmatch+=1;
+        }
+        if(nbmatch==2){
+            break;
+        }       
+    }
+    
+    //Ce n'est vraiment pas top de faire ça ici (car il faut s'assurer que la transition est complète, ce qui est le cas) mais je ne vois pas de meilleur moyen de procéder
+    
+    pred->addTransition(*transition);
+    succs->addTransition(*transition);
+}
 
 
-using namespace Parma_Polyhedra_Library;
+
+ 
+ 
+
+ void Automate::chargerDepuisTexte(std::string textpath){
+    //Algorithme qui charge le texte
+
+    //Ouvre le fichier
+    FILE *myfile = fopen(textpath.c_str(), "r");
+     
+    if (!myfile) {
+        cout << "Cannot open file" << endl;
+        
+    }
+    else{
+
+        yyin = myfile;
+        if ( yyparse(this) != 0 ) {
+            fprintf(stderr,"Syntaxe incorrecte\n");  
+        }
+    }
+}
+
+
+
+
 /* Implémente l'algorithme de vérification d'accessibilité des états finaux.*/
 
 bool Automate::verifieraccessibilite(std::list<EtatSymbolique> chemin){

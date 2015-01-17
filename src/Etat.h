@@ -15,6 +15,7 @@ public:
     int getNiveau();
     std::string getNom();
     std::list<Transition> getTransitions();
+    void addTransition(Transition transition);
     bool equals(Etat et);
     
 private:
