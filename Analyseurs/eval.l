@@ -5,7 +5,8 @@
    Utilisation : flex eval.l */
 
 %{
-#include "eval.tab.h" /* Généré par bison grâce à l'option %defines */
+#include "eval.tab.hpp" /* Généré par bison grâce à l'option %defines */
+
 %}
 
 %option noinput
@@ -24,13 +25,13 @@ TRANSITION		return TRANSITION;
 CONDITIONS		return CONDITIONS;
 ASSIGNEMENTS	return ASSIGNEMENTS;
 
-[0-9]+      	yylval = atoi(yytext); return ENTIER;
-q[0-9]+			yylval = yytext; return NOM;
-x[0-9]+			yylval = atoi(yytext+1); return VAR;
+[0-9]+      	yylval.i = atoi(yytext); return ENTIER;
+q[0-9]+			yylval.str = yytext; return NOM;
+x[0-9]+			yylval.i = atoi(yytext+1); return VAR;
 \{				return OBRACE;
 \} 				return EBRACE;
 "<="			return MINEQUAL;
-">="			return SUPEQAUL;
+">="			return SUPEQUAL;
 
 {BLANC}+    	;
 .           	fprintf(stderr, "Caractere (%c) non reconnu\n", yytext[0]); /* tout le reste (les règles sont évaluées de haut en bas */

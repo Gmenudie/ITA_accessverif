@@ -12,9 +12,17 @@
 #include <string>
 #include <ppl.hh>
 #include "Transition.h"
+#include "Etat.h"
 
 using namespace Parma_Polyhedra_Library;
 using namespace std;
+        
+Transition::Transition(){
+    conditions =NNC_Polyhedron();
+    predecesseur =new Etat;
+    successeur = new Etat;
+    assignements = list<Assignement>();
+}
 
 Transition::Transition(NNC_Polyhedron cond, Etat* pred, Etat* succ, list<Assignement> ass): 
 conditions(cond), predecesseur(pred), successeur(succ), assignements(ass)

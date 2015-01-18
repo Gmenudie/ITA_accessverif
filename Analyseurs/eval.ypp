@@ -6,45 +6,52 @@
 
 %{
 #include <stdio.h>
-#include <list>
-#include <ppl.hh>
 #include "Automate.h"
-#include "Etat.h"
-#include "Transition.h"
-#include "Assignement.h"
 
 /* Pré-déclarations */
-int yylex (void);
-void yyerror (const char *);
+
+int yylex();
+void yyerror (Automate * , const char *);
 
 /* Variable définie dans un autre fichier */
 extern char* yytext;
-using namespace Parma_Polyhedra_Library;
-using namespace std;
+
 
 %}
 
 %defines /* Génère le fichier en-tête eval.tab.h */
+%code requires { 
+	#include <ppl.hh>
+	#include <list>
+	#include "Automate.h"
+	#include "Etat.h"
+	#include "Transition.h"
+	#include "Assignement.h"
+
+	using namespace Parma_Polyhedra_Library;
+	using namespace std; 
+}
+
 %parse-param {Automate *automate}
 
 %start  element /* Axiome de la grammaire */
 
 %union{
-  Constraint c;
-  Constraint_System cs;
-  Linear_Expression e;
+  Constraint* c;
+  Constraint_System* cs;
+  Linear_Expression* e;
   int i;
   char* str;
-  NNC_Polyhedron p;
-  Variable v;
-  Assignement a;
-  list<Assignement> la;
+  NNC_Polyhedron* p;
+  Variable* v;
+  Assignement* a;
+  list<Assignement>* la;
 }
 
 
 %token<i> ENTIER
 %token<str> NOM
-%token<str> VAR
+%token<i> VAR
 
 %token TAILLE  		
 %token ETAT			
@@ -63,7 +70,7 @@ using namespace std;
 %type<cs> contraintes
 %type<a> formule
 %type<la> assignements formules
-%type<e> facteur expr
+%type<e> facteur expr terme
 
 
 %%
@@ -107,8 +114,8 @@ transition  : TRANSITION OBRACE NOM NOM conditions assignements EBRACE
   {
   	//Façon assez moche de procéder mais plutôt optimale. On passe une transition semi-complète à la classe automate qui se charge de la compléter.
   	Transition* transition = new Transition;
-  	transition->setConditions($5);
-  	transition->setAssignements($6);
+  	transition->setConditions(*$5);
+  	transition->setAssignements(*$6);
   	automate->addTransition( transition, $3, $4 );
   }
 
@@ -116,47 +123,51 @@ transition  : TRANSITION OBRACE NOM NOM conditions assignements EBRACE
   {
   	//Idem
   	Transition* transition  = new Transition;
-  	transition->setConditions($5);
+  	transition->setConditions(*$5);
   	automate->addTransition( transition, $3, $4 );
   }
             ;
 
-conditions  : CONDITIONS contraintes   {$$ = NNC_Polyhedron ($2);}
+conditions  : CONDITIONS contraintes   {$$ = new NNC_Polyhedron (*$2);}
             ;
 
-contraintes : contrainte     			{$$ = Constraint_System ($1) ;}
-            | contraintes contrainte    {($1).insert($2) ;}
+contraintes : contrainte     			{$$ = new Constraint_System (*$1) ;}
+            | contraintes contrainte    {$1->insert(*$2) ;}
             ;
 
-contrainte  : expr '=' expr ';'     {$$ = $1 == $3;}
-            | expr '<' expr ';'     {$$ = $1 > $3;}
-            | expr '>' expr ';'     {$$ = $1 < $3;}
-            | expr MINEQUAL expr ';'    {$$ = $1 <= $3;}
-            | expr SUPEQUAL expr ';'    {$$ = $1 >= $3;}
+contrainte  : expr '=' expr ';'     	{$$ = new Constraint(*$1 == *$3);}
+            | expr '<' expr ';'     	{$$ = new Constraint(*$1 < *$3);}
+            | expr '>' expr ';'     	{$$ = new Constraint(*$1 > *$3);}
+            | expr MINEQUAL expr ';'    {$$ = new Constraint(*$1 <= *$3);}
+            | expr SUPEQUAL expr ';'    {$$ = new Constraint(*$1 >= *$3);}
             ;
 
 assignements : ASSIGNEMENTS formules  {$$=$2;}
              ;
 
-formules  : formule    				{ list<Assignement> assignements;
-										assignements.push_back($1);
+formules  : formule    				{ list<Assignement>* assignements = new list<Assignement>;
+										assignements->push_back(*$1);
 										$$ = assignements;
 									}
-          | formules formule   		{ $1.push_back($2) ;}
+          | formules formule   		{ $1->push_back(*$2) ;}
           ;
 
-formule   : VAR "=" expr ';'		{$$ = Assignement(Variable($1), Linear_Expression($3));}	
+formule   : VAR "=" expr ';'		{$$ = new Assignement(Variable($1), *$3);}	
 		  ;
 
-expr      : expr '+' facteur		{$$ = $1 + $3;}
-          | expr '-' facteur		{$$ = $1 - $3;}
+expr      : expr '+' facteur		{$$ = new Linear_Expression(*$1 + *$3);}
+          | expr '-' facteur		{$$ = new Linear_Expression(*$1 - *$3);}
           | facteur					{$$ = $1;}
           ;
 
-facteur   : facteur '*' facteur		{$$ = Linear_Expression( $1 * $3);}
-          | ENTIER					{$$ = Linear_Expression($1);}
-          | VAR  					{$$ = Linear_Expression(Variable($1));}
+facteur   : ENTIER '*' terme		{$$ = new Linear_Expression($1 * (*$3));}
+          | ENTIER					{$$ = new Linear_Expression($1);}
+          | VAR  					{$$ = new Linear_Expression(Variable($1));}
           ;
+
+terme     : ENTIER					{$$ = new Linear_Expression($1);}
+		  | VAR    					{$$ = new Linear_Expression(Variable($1));}
+   		  ;
 
 
 
@@ -166,7 +177,7 @@ facteur   : facteur '*' facteur		{$$ = Linear_Expression( $1 * $3);}
 #include <stdio.h>
 #include "eval.tab.hpp"
 
-void yyerror (const char * error) 
+void yyerror (Automate* automate,const char * error) 
 {
     fprintf (stderr, "Erreur: %s sur l'expression %s\n", error, yytext);
 }

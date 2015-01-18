@@ -39,6 +39,20 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 23 "eval.ypp" /* yacc.c:1909  */
+ 
+	#include <ppl.hh>
+	#include <list>
+	#include "Automate.h"
+	#include "Etat.h"
+	#include "Transition.h"
+	#include "Assignement.h"
+
+	using namespace Parma_Polyhedra_Library;
+	using namespace std; 
+
+#line 56 "eval.tab.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -67,19 +81,19 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 32 "eval.ypp" /* yacc.c:1909  */
+#line 39 "eval.ypp" /* yacc.c:1909  */
 
-  Constraint c;
-  Constraint_System cs;
-  Linear_Expression e;
+  Constraint* c;
+  Constraint_System* cs;
+  Linear_Expression* e;
   int i;
   char* str;
-  NNC_Polyhedron p;
-  Variable v;
-  Assignement a;
-  list<Assignement> la;
+  NNC_Polyhedron* p;
+  Variable* v;
+  Assignement* a;
+  list<Assignement>* la;
 
-#line 83 "eval.tab.hpp" /* yacc.c:1909  */
+#line 97 "eval.tab.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

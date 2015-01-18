@@ -21,7 +21,7 @@ using namespace Parma_Polyhedra_Library;
 class Automate {
 public:
    Automate(std::list<Etat> etats ,std::list<Transition> transitions , Etat etatInitial,  std::list<Etat> etatsFinaux, int dimensions, std::list<Parma_Polyhedra_Library::Variable> variables);
- 
+   Automate();
  void setDimensions(int dim);
  void setVariables(std::list<Parma_Polyhedra_Library::Variable> vars);
  

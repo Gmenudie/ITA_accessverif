@@ -17,6 +17,7 @@ class Etat;
 
 class Transition {
 public:
+    Transition();
     Transition(Parma_Polyhedra_Library::NNC_Polyhedron cond, Etat* pred, Etat* succ, std::list<Assignement> ass); 
 
     Parma_Polyhedra_Library::NNC_Polyhedron getConditions(); 

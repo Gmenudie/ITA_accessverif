@@ -13,10 +13,14 @@
 #include "EtatSymbolique.h"
 
 int yyparse(Automate* automate);
-extern FILE* yyin;
+FILE * yyin;
 using namespace Parma_Polyhedra_Library;
 using namespace std;
 
+Automate::Automate(){
+   
+   
+}
 Automate::Automate(std::list<Etat> etats, std::list<Transition> transitions , Etat etatInitial, std::list<Etat> etatsFinaux, int dimensions, std::list<Parma_Polyhedra_Library::Variable> variables) : 
 etats(etats), transitions(transitions), etatInitial(etatInitial), etatsFinaux(etatsFinaux), dimensions(dimensions), variables(variables){
 }
