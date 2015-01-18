@@ -13,7 +13,7 @@
 #include "EtatSymbolique.h"
 
 int yyparse(Automate* automate);
-FILE * yyin;
+extern FILE * yyin;
 using namespace Parma_Polyhedra_Library;
 using namespace std;
 

@@ -10,7 +10,8 @@
 
 /* Pré-déclarations */
 
-int yylex();
+extern int yylex();
+extern FILE * yyin;
 void yyerror (Automate * , const char *);
 
 /* Variable définie dans un autre fichier */

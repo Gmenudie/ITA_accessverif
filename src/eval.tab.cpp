@@ -69,7 +69,8 @@
 
 /* Pré-déclarations */
 
-int yylex();
+extern int yylex();
+extern FILE * yyin;
 void yyerror (Automate * , const char *);
 
 /* Variable définie dans un autre fichier */
@@ -77,7 +78,7 @@ extern char* yytext;
 
 
 
-#line 81 "eval.tab.cpp" /* yacc.c:339  */
+#line 82 "eval.tab.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -107,7 +108,7 @@ extern char* yytext;
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 23 "eval.ypp" /* yacc.c:355  */
+#line 24 "eval.ypp" /* yacc.c:355  */
  
 	#include <ppl.hh>
 	#include <list>
@@ -119,7 +120,7 @@ extern int yydebug;
 	using namespace Parma_Polyhedra_Library;
 	using namespace std; 
 
-#line 123 "eval.tab.cpp" /* yacc.c:355  */
+#line 124 "eval.tab.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -148,7 +149,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 39 "eval.ypp" /* yacc.c:355  */
+#line 40 "eval.ypp" /* yacc.c:355  */
 
   Constraint* c;
   Constraint_System* cs;
@@ -160,7 +161,7 @@ union YYSTYPE
   Assignement* a;
   list<Assignement>* la;
 
-#line 164 "eval.tab.cpp" /* yacc.c:355  */
+#line 165 "eval.tab.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -175,7 +176,7 @@ int yyparse (Automate *automate);
 
 /* Copy the second part of user declarations.  */
 
-#line 179 "eval.tab.cpp" /* yacc.c:358  */
+#line 180 "eval.tab.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -474,10 +475,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    78,    82,    83,    84,    87,   100,   101,   104,   105,
-     106,   109,   110,   113,   122,   131,   134,   135,   138,   139,
-     140,   141,   142,   145,   148,   152,   155,   158,   159,   160,
-     163,   164,   165,   168,   169
+       0,    79,    83,    84,    85,    88,   101,   102,   105,   106,
+     107,   110,   111,   114,   123,   132,   135,   136,   139,   140,
+     141,   142,   143,   146,   149,   153,   156,   159,   160,   161,
+     164,   165,   166,   169,   170
 };
 #endif
 
@@ -1289,7 +1290,7 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 88 "eval.ypp" /* yacc.c:1646  */
+#line 89 "eval.ypp" /* yacc.c:1646  */
     {
 		automate->setDimensions((yyvsp[0].i));
 		std::list<Variable> variables;
@@ -1300,29 +1301,29 @@ yyreduce:
         automate->setVariables(variables);
 
 	}
-#line 1304 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1305 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 104 "eval.ypp" /* yacc.c:1646  */
+#line 105 "eval.ypp" /* yacc.c:1646  */
     {automate->addEtat(Etat((yyvsp[-1].str),(yyvsp[0].i)));}
-#line 1310 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1311 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 105 "eval.ypp" /* yacc.c:1646  */
+#line 106 "eval.ypp" /* yacc.c:1646  */
     {automate->addEtatInitial(Etat((yyvsp[-1].str),(yyvsp[0].i)));}
-#line 1316 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1317 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 106 "eval.ypp" /* yacc.c:1646  */
+#line 107 "eval.ypp" /* yacc.c:1646  */
     {automate->addEtatFinal(Etat((yyvsp[-1].str),(yyvsp[0].i)));}
-#line 1322 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1323 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 114 "eval.ypp" /* yacc.c:1646  */
+#line 115 "eval.ypp" /* yacc.c:1646  */
     {
   	//Façon assez moche de procéder mais plutôt optimale. On passe une transition semi-complète à la classe automate qui se charge de la compléter.
   	Transition* transition = new Transition;
@@ -1330,145 +1331,145 @@ yyreduce:
   	transition->setAssignements(*(yyvsp[-1].la));
   	automate->addTransition( transition, (yyvsp[-4].str), (yyvsp[-3].str) );
   }
-#line 1334 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1335 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 123 "eval.ypp" /* yacc.c:1646  */
+#line 124 "eval.ypp" /* yacc.c:1646  */
     {
   	//Idem
   	Transition* transition  = new Transition;
   	transition->setConditions(*(yyvsp[-1].p));
   	automate->addTransition( transition, (yyvsp[-3].str), (yyvsp[-2].str) );
   }
-#line 1345 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1346 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 131 "eval.ypp" /* yacc.c:1646  */
+#line 132 "eval.ypp" /* yacc.c:1646  */
     {(yyval.p) = new NNC_Polyhedron (*(yyvsp[0].cs));}
-#line 1351 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1352 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 134 "eval.ypp" /* yacc.c:1646  */
+#line 135 "eval.ypp" /* yacc.c:1646  */
     {(yyval.cs) = new Constraint_System (*(yyvsp[0].c)) ;}
-#line 1357 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1358 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 135 "eval.ypp" /* yacc.c:1646  */
+#line 136 "eval.ypp" /* yacc.c:1646  */
     {(yyvsp[-1].cs)->insert(*(yyvsp[0].c)) ;}
-#line 1363 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1364 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 138 "eval.ypp" /* yacc.c:1646  */
+#line 139 "eval.ypp" /* yacc.c:1646  */
     {(yyval.c) = new Constraint(*(yyvsp[-3].e) == *(yyvsp[-1].e));}
-#line 1369 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1370 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 139 "eval.ypp" /* yacc.c:1646  */
+#line 140 "eval.ypp" /* yacc.c:1646  */
     {(yyval.c) = new Constraint(*(yyvsp[-3].e) < *(yyvsp[-1].e));}
-#line 1375 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1376 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 140 "eval.ypp" /* yacc.c:1646  */
+#line 141 "eval.ypp" /* yacc.c:1646  */
     {(yyval.c) = new Constraint(*(yyvsp[-3].e) > *(yyvsp[-1].e));}
-#line 1381 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1382 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 141 "eval.ypp" /* yacc.c:1646  */
+#line 142 "eval.ypp" /* yacc.c:1646  */
     {(yyval.c) = new Constraint(*(yyvsp[-3].e) <= *(yyvsp[-1].e));}
-#line 1387 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1388 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 142 "eval.ypp" /* yacc.c:1646  */
+#line 143 "eval.ypp" /* yacc.c:1646  */
     {(yyval.c) = new Constraint(*(yyvsp[-3].e) >= *(yyvsp[-1].e));}
-#line 1393 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1394 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 145 "eval.ypp" /* yacc.c:1646  */
+#line 146 "eval.ypp" /* yacc.c:1646  */
     {(yyval.la)=(yyvsp[0].la);}
-#line 1399 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1400 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 148 "eval.ypp" /* yacc.c:1646  */
+#line 149 "eval.ypp" /* yacc.c:1646  */
     { list<Assignement>* assignements = new list<Assignement>;
 										assignements->push_back(*(yyvsp[0].a));
 										(yyval.la) = assignements;
 									}
-#line 1408 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1409 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 152 "eval.ypp" /* yacc.c:1646  */
+#line 153 "eval.ypp" /* yacc.c:1646  */
     { (yyvsp[-1].la)->push_back(*(yyvsp[0].a)) ;}
-#line 1414 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1415 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 155 "eval.ypp" /* yacc.c:1646  */
+#line 156 "eval.ypp" /* yacc.c:1646  */
     {(yyval.a) = new Assignement(Variable((yyvsp[-3].i)), *(yyvsp[-1].e));}
-#line 1420 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1421 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 158 "eval.ypp" /* yacc.c:1646  */
+#line 159 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression(*(yyvsp[-2].e) + *(yyvsp[0].e));}
-#line 1426 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1427 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 159 "eval.ypp" /* yacc.c:1646  */
+#line 160 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression(*(yyvsp[-2].e) - *(yyvsp[0].e));}
-#line 1432 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1433 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 160 "eval.ypp" /* yacc.c:1646  */
+#line 161 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = (yyvsp[0].e);}
-#line 1438 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1439 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 163 "eval.ypp" /* yacc.c:1646  */
+#line 164 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression((yyvsp[-2].i) * (*(yyvsp[0].e)));}
-#line 1444 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1445 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 164 "eval.ypp" /* yacc.c:1646  */
+#line 165 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression((yyvsp[0].i));}
-#line 1450 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1451 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 165 "eval.ypp" /* yacc.c:1646  */
+#line 166 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression(Variable((yyvsp[0].i)));}
-#line 1456 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1457 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 168 "eval.ypp" /* yacc.c:1646  */
+#line 169 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression((yyvsp[0].i));}
-#line 1462 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1463 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 169 "eval.ypp" /* yacc.c:1646  */
+#line 170 "eval.ypp" /* yacc.c:1646  */
     {(yyval.e) = new Linear_Expression(Variable((yyvsp[0].i)));}
-#line 1468 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1469 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1472 "eval.tab.cpp" /* yacc.c:1646  */
+#line 1473 "eval.tab.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1696,7 +1697,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 176 "eval.ypp" /* yacc.c:1906  */
+#line 177 "eval.ypp" /* yacc.c:1906  */
 
 #include <stdio.h>
 #include "eval.tab.hpp"

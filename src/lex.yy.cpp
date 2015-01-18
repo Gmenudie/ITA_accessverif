@@ -1,5 +1,5 @@
 
-#line 3 "lex.yy.c"
+#line 3 "lex.yy.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -163,7 +163,7 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 
 extern int yyleng;
 
-extern FILE *yyin, *yyout;
+
 
 #define EOB_ACT_CONTINUE_SCAN 0
 #define EOB_ACT_END_OF_FILE 1
@@ -345,7 +345,8 @@ void yyfree (void *  );
 
 typedef unsigned char YY_CHAR;
 
-FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
+extern FILE *yyin = (FILE *) 0; 
+FILE *yyout = (FILE *) 0;
 
 typedef int yy_state_type;
 
@@ -513,7 +514,7 @@ char *yytext;
 #include "eval.tab.hpp" /* Généré par bison grâce à l'option %defines */
 
 #define YY_NO_INPUT 1
-#line 517 "lex.yy.c"
+#line 517 "lex.yy.cpp"
 
 #define INITIAL 0
 
@@ -701,7 +702,7 @@ YY_DECL
 #line 18 "eval.l"
 
 
-#line 705 "lex.yy.c"
+#line 705 "lex.yy.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -870,7 +871,7 @@ YY_RULE_SETUP
 #line 39 "eval.l"
 ECHO;
 	YY_BREAK
-#line 874 "lex.yy.c"
+#line 874 "lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
