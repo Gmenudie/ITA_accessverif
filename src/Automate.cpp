@@ -53,25 +53,32 @@ void Automate::addTransition(Transition* transition, string nompred, string noms
     Etat* pred;
     Etat* succs;
     
+    cout << "Début de la recherche de " << nompred << " et " << nomsuccs << endl  ;
     for(it=etats.begin(); it!=etats.end(); ++it){
         if (it->getNom()==nompred){
+           cout << "Trouvé état predecesseur\n";
             pred=&(*it);
             transition->setPredecesseur(pred);
             nbmatch+=1;
-            
+            cout << "Set.\n";
         }
         if (it->getNom()==nomsuccs){
+            cout << "Trouvé état successeur\n";
             succs=&(*it);
             transition->setSuccesseur(succs);
             nbmatch+=1;
+            cout << "Set.\n";
         }
         if(nbmatch==2){
+            cout << "Fini\n";
             break;
-        }       
+        }
+        cout << "Niveau " << it->getNiveau();
+        cout << "Etat "<< it->getNom() << " ne convient pas. Etat suivant\n";
     }
     
     //Ce n'est vraiment pas top de faire ça ici (car il faut s'assurer que la transition est complète, ce qui est le cas) mais je ne vois pas de meilleur moyen de procéder
-    
+    cout << "Rajout de la transition aux etats concernés";
     pred->addTransition(*transition);
     succs->addTransition(*transition);
 }

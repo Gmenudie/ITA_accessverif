@@ -6,7 +6,8 @@
 
 %{
 #include "eval.tab.hpp" /* Généré par bison grâce à l'option %defines */
-
+#include <iostream>
+#include <string.h> 
 %}
 
 %option noinput
@@ -17,17 +18,18 @@ BLANC [ \n\t]
 
 %%
 
-TAILLE  		return TAILLE;
-ETAT			return ETAT;
-INITIAL			return INITIAL;
+MAX_LEVEL  		return MAX_LEVEL;
+STATE			return STATE;
+INITIAL			return INI;
 FINAL			return FINAL;
 TRANSITION		return TRANSITION;
-CONDITIONS		return CONDITIONS;
-ASSIGNEMENTS	return ASSIGNEMENTS;
-
-[0-9]+      	yylval.i = atoi(yytext); return ENTIER;
-q[0-9]+			yylval.str = yytext; return NOM;
-x[0-9]+			yylval.i = atoi(yytext+1); return VAR;
+GUARD			return GUARD;
+ASSIGNMENT		return ASSIGNMENT;
+[\-+*=<>;]      return yytext[0];
+LEVEL			return LEVEL;
+[0-9]+      	{yylval.i = atoi(yytext); return ENTIER;}
+q[0-9]+			{cout << "\n\n\n  Trouvé un état. Nom: " << yytext;   yylval.str = strdup(yytext); return NOM;}
+x[0-9]+			{yylval.i = atoi(yytext+1); return VAR;}
 \{				return OBRACE;
 \} 				return EBRACE;
 "<="			return MINEQUAL;

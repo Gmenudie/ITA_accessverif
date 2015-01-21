@@ -40,7 +40,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 24 "eval.ypp" /* yacc.c:1909  */
+#line 26 "eval.ypp" /* yacc.c:1909  */
  
 	#include <ppl.hh>
 	#include <list>
@@ -62,17 +62,18 @@ extern int yydebug;
     ENTIER = 258,
     NOM = 259,
     VAR = 260,
-    TAILLE = 261,
-    ETAT = 262,
-    INITIAL = 263,
+    MAX_LEVEL = 261,
+    STATE = 262,
+    INI = 263,
     FINAL = 264,
     TRANSITION = 265,
-    CONDITIONS = 266,
-    ASSIGNEMENTS = 267,
+    GUARD = 266,
+    ASSIGNMENT = 267,
     OBRACE = 268,
     EBRACE = 269,
     MINEQUAL = 270,
-    SUPEQUAL = 271
+    SUPEQUAL = 271,
+    LEVEL = 272
   };
 #endif
 
@@ -81,7 +82,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 40 "eval.ypp" /* yacc.c:1909  */
+#line 42 "eval.ypp" /* yacc.c:1909  */
 
   Constraint* c;
   Constraint_System* cs;
@@ -93,7 +94,7 @@ union YYSTYPE
   Assignement* a;
   list<Assignement>* la;
 
-#line 97 "eval.tab.hpp" /* yacc.c:1909  */
+#line 98 "eval.tab.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

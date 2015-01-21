@@ -15,7 +15,7 @@
 #include "Transition.h"
 #include "EtatSymbolique.h"
 
-using namespace std;
+ using namespace std;
 using namespace Parma_Polyhedra_Library;
 
 class Automate {
