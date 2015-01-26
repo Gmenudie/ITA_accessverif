@@ -7,10 +7,10 @@
 using namespace std;
 using namespace Parma_Polyhedra_Library;
 
-EtatSymbolique::EtatSymbolique(Etat etat, NNC_Polyhedron horloge , EtatSymbolique* pere): etat(etat), horloge(horloge), pere(pere)
+EtatSymbolique::EtatSymbolique(Etat* etat, NNC_Polyhedron horloge , EtatSymbolique* pere): etat(etat), horloge(horloge), pere(pere)
 {}
 
-Etat EtatSymbolique::getEtat(){
+Etat* EtatSymbolique::getEtat(){
 	return etat; 
 }
 
@@ -25,24 +25,37 @@ NNC_Polyhedron EtatSymbolique::getHorloge(){
 void EtatSymbolique::setHorloge(NNC_Polyhedron new_horloge){
 	horloge = new_horloge;
 }
+
+void EtatSymbolique::print(){
+    cout << "Symbolic State \n";
+    etat->print();
+    cout << "Clock associated: \n";
+    horloge.print();   
+    cout << endl;
+}
+
 bool EtatSymbolique::inclus(EtatSymbolique es){
-	if (!this->getEtat().equals(es.getEtat())){
+	if (!etat->equals(*(es.getEtat()))){
 		return false;
 	}
 	else {
-		return es.getHorloge().contains(this->getHorloge());
+		return es.getHorloge().contains(horloge);
 
 	}
 }
 
-//Doit avoir acces à list<Variable> variables (à mettre en place !!!)
+bool EtatSymbolique::hasPere(){
+    return (pere!=NULL);
+}
+
+
 void EtatSymbolique::futur(list<Variable> variables){
 	Constraint_System cs;
 	std::list<Variable>::iterator it;
 
 	//Construit un polyedre avec 0 sur toutes les variables et 1 sur la variable à étendre
 	for (it=variables.begin(); it!=variables.end(); ++it){
-		if(it->id()==getEtat().getNiveau()){
+		if(it->id()==etat->getNiveau()){
 			Constraint c(*it==1);
 			cs.insert(c);
 		}
@@ -61,7 +74,7 @@ void EtatSymbolique::futur(list<Variable> variables){
 std::list<EtatSymbolique> EtatSymbolique::successeurs(std::list<Variable> variables){
 
 	std::list<EtatSymbolique> successeurs;
-	std::list<Transition> transitions = etat.getTransitions();
+	std::list<Transition> transitions = etat->getTransitions();
 	std::list<Transition>::iterator it = transitions.begin();
 
 	//On essaie de franchir chaque transition
@@ -73,7 +86,7 @@ std::list<EtatSymbolique> EtatSymbolique::successeurs(std::list<Variable> variab
 		if(!new_horloge.is_empty()){
                     Etat* succ = it->getSuccesseur();
 
-			EtatSymbolique successeur(*succ, new_horloge, this);
+			EtatSymbolique successeur(succ, new_horloge, this);
 			std::list<Assignement> assignements = it->getAssignements();
 			std::list<Assignement>::iterator it2;
 
@@ -84,8 +97,13 @@ std::list<EtatSymbolique> EtatSymbolique::successeurs(std::list<Variable> variab
 			}
                         
                         successeur.futur(variables);
+                        cout << "Successeur crée: \n" ;
+                        successeur.print();
+                        cout << "Son père est: \n" ;
+                        successeur.getPere()->print();
 			successeurs.push_back(successeur);
 		}	
 	}
+        
 	return successeurs;
 }

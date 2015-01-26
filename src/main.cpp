@@ -11,55 +11,35 @@
 #include "Etat.h"
 #include "Automate.h"
 
+
 using namespace std;
 using namespace Parma_Polyhedra_Library;
 using namespace Parma_Polyhedra_Library::IO_Operators;
+
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    /*
-	list<Etat> etats;
-	list<Transition> transitions;
-	Etat etatInitial;
-	list<Etat> etatsFinaux;
-	int dimensions=2;
-	list<Variable> variables;
-	
-
-
-    for (int i=0; i!=dimensions; i++){
-        Variable A(i);
-        variables.push_back(A);            
-    }
-
-    Etat q0("q0", 0);
-    Etat q1("q1", 0);
-    Etat q2("q2", 1);
-
-    etats.push_back(q0);
-    etats.push_back(q1);
-    etats.push_back(q2);
-    
-   
-
-    etatInitial=q0;
-
-    etatsFinaux.push_back(q2);
-
-	Automate automate(etats , transitions ,  etatInitial,  etatsFinaux, dimensions, variables);*/
-    
+    bool ver=1;
     list<EtatSymbolique> chemin;
     Automate automate;
     
-    automate.chargerDepuisTexte("test.txt");
+    
 
-    if(automate.verifieraccessibilite(chemin)){
-            cout << "Etat final accessible! Voilà le chemin!" ;
+    automate.chargerDepuisTexte();
+    automate.print();
+
+    if(automate.verifieraccessibilite(chemin,ver)){
+            cout << "--------- Final state accessible! --------\n\nHere is the path: \n" ;
+            list<EtatSymbolique>::iterator it;
+            for (it=chemin.begin(); it!=chemin.end(); ++it){
+                it->print();
+            }
+                    
     }
     else {
-            cout << "Aucun état final atteignable!";
+            cout << "--------- No final state accessible! -----------\n";
     } 
 
   return 0;

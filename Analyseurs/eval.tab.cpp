@@ -1359,13 +1359,13 @@ yyreduce:
 
   case 13:
 #line 136 "eval.ypp" /* yacc.c:1646  */
-    {(yyval.p) = new NNC_Polyhedron (*(yyvsp[0].cs));}
+    {Constraint_System ccc(*(yyvsp[0].cs)) ; cout << "The dimension of the Constraint_System is " << ccc.space_dimension(); (yyval.p) = new NNC_Polyhedron (*(yyvsp[0].cs));}
 #line 1364 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 139 "eval.ypp" /* yacc.c:1646  */
-    {(yyval.cs) = new Constraint_System (*(yyvsp[0].c)) ;}
+    {Constraint_System * cs2 = new Constraint_System (*(yyvsp[0].c)) ; cs2->set_space_dimension(automate->getDimensions()); (yyval.cs) = cs2;  }
 #line 1370 "eval.tab.cpp" /* yacc.c:1646  */
     break;
 

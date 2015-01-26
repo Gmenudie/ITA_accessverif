@@ -14,21 +14,24 @@
 
 class EtatSymbolique{
 public :    
-    EtatSymbolique(Etat etat, Parma_Polyhedra_Library::NNC_Polyhedron horloge , EtatSymbolique* pere);
+    EtatSymbolique(Etat* etat, Parma_Polyhedra_Library::NNC_Polyhedron horloge , EtatSymbolique* pere);
     void futur(std::list<Parma_Polyhedra_Library::Variable> variables);
 	std::list<EtatSymbolique> successeurs(std::list<Parma_Polyhedra_Library::Variable> variables);
 	bool inclus(EtatSymbolique es);
+        bool hasPere();
     
 	//Getters
-    Etat getEtat();
+    Etat* getEtat();
     EtatSymbolique* getPere();
     Parma_Polyhedra_Library::NNC_Polyhedron getHorloge();
     
     //Setters
     void setHorloge(Parma_Polyhedra_Library::NNC_Polyhedron);
+    
+    void print();
    
 private:
-Etat etat;
+Etat* etat;
 Parma_Polyhedra_Library::NNC_Polyhedron horloge ;
 EtatSymbolique* pere;
 };

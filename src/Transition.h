@@ -28,6 +28,8 @@ public:
     void setSuccesseur(Etat* succs);
     void setConditions(Parma_Polyhedra_Library::NNC_Polyhedron cond);
     void setAssignements(std::list<Assignement> assi);
+    
+    void print();
    
     
 private:

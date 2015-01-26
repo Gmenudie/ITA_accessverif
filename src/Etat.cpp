@@ -1,7 +1,8 @@
-
 #include "Etat.h"
 #include <string>
 #include <list>
+
+using namespace std;
 
 
 
@@ -41,3 +42,14 @@ bool Etat::equals(Etat et){
     return (this->nom==et.getNom() && this->niveau == et.getNiveau());
 }
 
+void Etat::print(){
+   
+    list<Transition>::iterator it;
+    cout << "State " + this->getNom() + " , level " << this->getNiveau() << "\n\n";
+    
+    for (it=transitions.begin(); it!=transitions.end(); ++it ){
+       it->print();
+    }
+    
+
+}

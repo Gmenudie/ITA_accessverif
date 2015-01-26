@@ -133,10 +133,10 @@ transition  : TRANSITION OBRACE NOM NOM conditions assignements EBRACE
   }
             ;
 
-conditions  : GUARD contraintes   {$$ = new NNC_Polyhedron (*$2);}
+conditions  : GUARD contraintes   {Constraint_System ccc(*$2) ; cout << "The dimension of the Constraint_System is " << ccc.space_dimension(); $$ = new NNC_Polyhedron (*$2);}
             ;
 
-contraintes : contrainte     			{$$ = new Constraint_System (*$1) ;}
+contraintes : contrainte     		       	{Constraint_System * cs2 = new Constraint_System (*$1) ; cs2->set_space_dimension(automate->getDimensions()); $$ = cs2;  }
             | contraintes contrainte    {$1->insert(*$2) ;}
             ;
 
