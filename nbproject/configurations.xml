@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>src/Assignement.h</itemPath>
+      <itemPath>src/Automate.h</itemPath>
+      <itemPath>src/Etat.h</itemPath>
+      <itemPath>src/EtatSymbolique.h</itemPath>
+      <itemPath>src/Transition.h</itemPath>
+      <itemPath>src/eval.tab.hpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>src/Assignement.cpp</itemPath>
+      <itemPath>src/Automate.cpp</itemPath>
+      <itemPath>src/Etat.cpp</itemPath>
+      <itemPath>src/EtatSymbolique.cpp</itemPath>
+      <itemPath>src/Transition.cpp</itemPath>
+      <itemPath>src/eval.tab.cpp</itemPath>
+      <itemPath>src/lex.yy.cpp</itemPath>
+      <itemPath>src/main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>src</Elem>
+    <Elem>headers</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <commandLine>-lppl -lgmpxx -lgmp</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="src/Assignement.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Assignement.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Automate.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Automate.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Etat.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Etat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/EtatSymbolique.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/EtatSymbolique.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Transition.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Transition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/eval.tab.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/eval.tab.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/lex.yy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="src/Assignement.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Assignement.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Automate.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Automate.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Etat.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Etat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/EtatSymbolique.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/EtatSymbolique.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Transition.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Transition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/eval.tab.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/eval.tab.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/lex.yy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

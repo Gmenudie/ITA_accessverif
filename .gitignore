@@ -1,6 +1,4 @@
-dist/
 build/
-nbproject/
 manifest.mf
 .dep.inc
 test.txt
