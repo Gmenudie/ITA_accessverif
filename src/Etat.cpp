@@ -44,12 +44,15 @@ bool Etat::equals(Etat et){
 
 void Etat::print(){
    
+    cout << "State " + this->getNom() + " , level " << this->getNiveau() << "\n";
+}
+    
+void Etat::printWithTransitions(){
+   
     list<Transition>::iterator it;
-    cout << "State " + this->getNom() + " , level " << this->getNiveau() << "\n\n";
+    cout << "State " + this->getNom() + " , level " << this->getNiveau() << "\n";
     
     for (it=transitions.begin(); it!=transitions.end(); ++it ){
        it->print();
     }
-    
-
 }

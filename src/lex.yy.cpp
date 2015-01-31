@@ -840,7 +840,7 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 31 "eval.l"
-{cout << "\n\n\n  Trouvé un état. Nom: " << yytext;   yylval.str = strdup(yytext); return NOM;}
+{yylval.str = strdup(yytext); return NOM;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP

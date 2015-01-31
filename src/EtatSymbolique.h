@@ -20,7 +20,7 @@ public :
 	bool inclus(EtatSymbolique es);
         bool hasPere();
     
-	//Getters
+    //Getters
     Etat* getEtat();
     EtatSymbolique* getPere();
     Parma_Polyhedra_Library::NNC_Polyhedron getHorloge();
@@ -29,6 +29,7 @@ public :
     void setHorloge(Parma_Polyhedra_Library::NNC_Polyhedron);
     
     void print();
+    void printWithTransitions();
    
 private:
 Etat* etat;

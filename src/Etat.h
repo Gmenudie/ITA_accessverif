@@ -17,6 +17,7 @@ public:
     std::list<Transition> getTransitions();
     void addTransition(Transition transition);
     void print();
+    void printWithTransitions();
     bool equals(Etat et);
     
 private:

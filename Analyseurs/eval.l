@@ -28,7 +28,7 @@ ASSIGNMENT		return ASSIGNMENT;
 [\-+*=<>;]      return yytext[0];
 LEVEL			return LEVEL;
 [0-9]+      	{yylval.i = atoi(yytext); return ENTIER;}
-q[0-9]+			{cout << "\n\n\n  Trouvé un état. Nom: " << yytext;   yylval.str = strdup(yytext); return NOM;}
+q[0-9]+			{yylval.str = strdup(yytext); return NOM;}
 x[0-9]+			{yylval.i = atoi(yytext+1); return VAR;}
 \{				return OBRACE;
 \} 				return EBRACE;

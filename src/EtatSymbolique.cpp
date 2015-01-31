@@ -27,12 +27,21 @@ void EtatSymbolique::setHorloge(NNC_Polyhedron new_horloge){
 }
 
 void EtatSymbolique::print(){
-    cout << "Symbolic State \n";
+    cout << "Symbolic ";
     etat->print();
-    cout << "Clock associated: \n";
+    cout << "Clock associated: ";
     horloge.print();   
     cout << endl;
 }
+
+void EtatSymbolique::printWithTransitions(){
+    cout << "Symbolic ";
+    etat->printWithTransitions();
+    cout << "Clock associated: ";
+    horloge.print();   
+    cout << endl;
+}
+
 
 bool EtatSymbolique::inclus(EtatSymbolique es){
 	if (!etat->equals(*(es.getEtat()))){
@@ -97,10 +106,6 @@ std::list<EtatSymbolique> EtatSymbolique::successeurs(std::list<Variable> variab
 			}
                         
                         successeur.futur(variables);
-                        cout << "Successeur crée: \n" ;
-                        successeur.print();
-                        cout << "Son père est: \n" ;
-                        successeur.getPere()->print();
 			successeurs.push_back(successeur);
 		}	
 	}

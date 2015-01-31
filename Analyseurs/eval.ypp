@@ -103,9 +103,9 @@ taille   : MAX_LEVEL ENTIER
 
 
 
-etat     : STATE NOM LEVEL ENTIER           {cout << "Trouvé un Etat, nom: " << $2 << " , niveau " << $4; automate->addEtat(Etat($2,$4));}
-    		 | INI STATE NOM LEVEL ENTIER	 {cout << "Trouvé un Etat, nom: " << $3 << " , niveau " << $5; automate->addEtatInitial(Etat($3,$5));}
-    	 	 | FINAL STATE NOM LEVEL ENTIER	 {cout << "Trouvé un Etat, nom: " << $3 << " , niveau " << $5; automate->addEtatFinal(Etat($3,$5));}
+etat     : STATE NOM LEVEL ENTIER           {automate->addEtat(Etat($2,$4));}
+    		 | INI STATE NOM LEVEL ENTIER	      {automate->addEtatInitial(Etat($3,$5));}
+    	 	 | FINAL STATE NOM LEVEL ENTIER	    {automate->addEtatFinal(Etat($3,$5));}
          ;
 
 
@@ -113,15 +113,10 @@ etat     : STATE NOM LEVEL ENTIER           {cout << "Trouvé un Etat, nom: " <<
 transition  : TRANSITION OBRACE NOM NOM conditions assignements EBRACE  
   {
   	//Façon assez moche de procéder mais plutôt optimale. On passe une transition semi-complète à la classe automate qui se charge de la compléter.
-  	cout << "\nCréation d'une transition\n";
   	Transition* transition = new Transition;
-  	cout << "Créée.\nAjout des conditions\n";
   	transition->setConditions(*$5);
-  	cout << "\nFait.\nAjout des assignements\n";
   	transition->setAssignements(*$6);
-  	cout << "\nFait.\n Ajout à l'automate\n";
   	automate->addTransition( transition, $3, $4 );
-  	cout << "Fait.\n";
   }
 
             | TRANSITION OBRACE NOM NOM conditions EBRACE
@@ -133,7 +128,7 @@ transition  : TRANSITION OBRACE NOM NOM conditions assignements EBRACE
   }
             ;
 
-conditions  : GUARD contraintes   {Constraint_System ccc(*$2) ; cout << "The dimension of the Constraint_System is " << ccc.space_dimension(); $$ = new NNC_Polyhedron (*$2);}
+conditions  : GUARD contraintes   {Constraint_System ccc(*$2); $$ = new NNC_Polyhedron (*$2);}
             ;
 
 contraintes : contrainte     		       	{Constraint_System * cs2 = new Constraint_System (*$1) ; cs2->set_space_dimension(automate->getDimensions()); $$ = cs2;  }

@@ -58,15 +58,15 @@ void Transition::setAssignements(list<Assignement> assi){
 
 void Transition::print(){
     list<Assignement>::iterator it;
-    cout << "Transition from " + predecesseur->getNom() + " to " + successeur->getNom() + " ." << endl; 
-    cout << "Conditions: " ;
+    cout << "  Transition from " + predecesseur->getNom() + " to " + successeur->getNom() << endl; 
+    cout << "    Conditions: " ;
     conditions.print();
-    cout << endl << "Assignments :" ;
+    cout << endl << "    Assignments :" ;
     for (it=assignements.begin(); it!=assignements.end(); ++it){
         it->print();
     }
     
-    cout << endl << endl ;
+    cout << endl ;
      
 
 }

@@ -57,50 +57,41 @@ void Automate::addTransition(Transition* transition, string nompred, string noms
     Etat* pred;
     Etat* succs;
     
-    cout << "Début de la recherche de " << nompred << " et " << nomsuccs << endl  ;
     for(it=etats.begin(); it!=etats.end(); ++it){
         if (it->getNom()==nompred){
-           cout << "Trouvé état predecesseur\n";
             pred=&(*it);
             transition->setPredecesseur(pred);
             nbmatch+=1;
-            cout << "Set.\n";
         }
         if (it->getNom()==nomsuccs){
-            cout << "Trouvé état successeur\n";
             succs=&(*it);
             transition->setSuccesseur(succs);
             nbmatch+=1;
-            cout << "Set.\n";
         }
         if(nbmatch==2){
-            cout << "Fini\n";
             break;
         }
-        cout << "Niveau " << it->getNiveau();
-        cout << "Etat "<< it->getNom() << " ne convient pas. Etat suivant\n";
     }
     
     //Ce n'est vraiment pas top de faire ça ici (car il faut s'assurer que la transition est complète, ce qui est le cas) mais je ne vois pas de meilleur moyen de procéder
-    cout << "Rajout de la transition aux etats concernés";
     pred->addTransition(*transition);
 }
 
 void Automate::print(){
     list<Etat>::iterator it;
      
-    cout <<  "----- Here is the automaton -----\n\n" ;    
+    cout <<  "\n----- Here is the automaton -----\n\n" ;    
     cout << "Initial state: " ; 
     etatInitial->print();
+    cout << endl;
     
     for(it = etats.begin(); it!= etats.end(); ++it){
-       it->print();
+       it->printWithTransitions();
+       cout << endl;
     }
     for(it = etatsFinaux.begin(); it!= etatsFinaux.end(); ++it){
        cout << "Final state: " + it->getNom() + " , level " << it->getNiveau() << "\n\n"; 
     }
-    cout <<  "-----------------\n";
-  
 }
 
 
@@ -111,11 +102,12 @@ void Automate::print(){
  void Automate::chargerDepuisTexte(){
     //Algorithme qui charge le texte
     string filepath;
-     
+    
+    cout << "\nPlease enter path to file to load: \n";
     cin >> filepath;
 
     //Ouvre le fichier
-    cout << "\nPlease enter path to file to load: \n";
+   
     FILE *myfile = fopen(filepath.c_str(), "r");
      
     while (!myfile){
@@ -166,17 +158,12 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
     
     if(ver){
         cout << "First element is ";
-        etatSymboliqueInitial.print();
+        etatSymboliqueInitial.printWithTransitions();
         cout << endl;
     }
 
     //Début: on met en pile l'état initial et on initialise les variables
     etatSymboliqueInitial.futur(variables);
-    if(ver){
-        cout << "After future element is ";
-        etatSymboliqueInitial.print();
-        cout << endl;
-    }
     temp.push_back(etatSymboliqueInitial);
     EtatSymbolique * etatExamine = &temp.back();
     aTraiter.push_back(etatExamine);
@@ -185,16 +172,12 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
     //Traitement: On dépile, et tant que l'état examiné n'est pas final on empile ses successeurs possibles
     while( !aTraiter.empty() && !atteignable )
     {
-
-        
         etatExamine=aTraiter.back();
         aTraiter.pop_back();
         
         if(ver){
             cout << "Now analysing ";
-            etatExamine->print();
-            cout << "Adresse ";
-            cout << etatExamine;
+            etatExamine->printWithTransitions();
             cout << endl;
         }
 
@@ -204,7 +187,7 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
         for (it=etatsFinaux.begin(); it!=etatsFinaux.end(); ++it){
             if(etatExamine->getEtat()->equals(*it)){
                 if(ver){
-                    cout << "Final state found! \n";
+                    cout << "--> Final state found! \n";
                     etatExamine->print();
                     cout << endl;
                 }
@@ -213,16 +196,15 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
         }    
         
         if (final){
+            
+            if(ver){
+                cout << "Now computing the path used to get there ... \n";
+            }
 
             // On est parvenus à un état final, on enregistre le chemin en remontant de père en père jusqu'à l'état initial (le seul dont le père est nul)
             while(etatExamine->hasPere()){
                 chemin.push_back(*etatExamine);
-                cout << "Adding to the path: \n";
-                etatExamine->print();
-                EtatSymbolique * pere= etatExamine->getPere();
-                cout << "Le père est: \n";
-                pere->print();
-                cout << "adresse " << pere << endl ; 
+                EtatSymbolique * pere= etatExamine->getPere(); 
                 etatExamine = pere;
             }
             //On ajoute l'état initial au chemin
@@ -232,7 +214,8 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
         else
         {
             if(ver){
-                    cout << "This state is not a final state \n";
+                    cout << "--> This state is not a final state \n";
+                    cout << "Now looking for successors ... \n\n";
                 }
             traites.push_back(*etatExamine);
             std::list<EtatSymbolique> successeurs = etatExamine->successeurs(variables);
@@ -244,10 +227,10 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
             bool traite=false;
             for (it3=successeurs.begin(); it3!=successeurs.end();++it3)
             {
-                cout << "Successeur récupéré \n";
-                it3->print();
-                cout << "Dont le pere est \n";
-                it3->getPere()->print();
+                if (ver){
+                    cout << "Possible successor for this state: \n";
+                    it3->print();
+                }
                 for(it2=traites.begin(); it2!=traites.end(); ++it2){
                     if (it3->inclus(*it2)){
                         traite=true;
@@ -257,9 +240,15 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
                 if(traite){
                     //Etat traité, on ne fait rien et on remet traité à false pour le successeur suivant
                     traite=false;
+                    if(ver){
+                        cout << "--> State already treated, dismissed\n\n";
+                    }
                 }
                 else{
                     //Etat non traité, on le rajoute à aTraiter
+                    if(ver){
+                        cout << "--> New state, adding to the queue\n\n";
+                    }
                     temp.push_back(EtatSymbolique(it3->getEtat(), it3->getHorloge(), it3->getPere()));
                     aTraiter.push_back(&temp.back());
                    
