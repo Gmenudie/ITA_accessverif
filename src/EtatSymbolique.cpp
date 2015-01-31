@@ -57,6 +57,15 @@ bool EtatSymbolique::hasPere(){
     return (pere!=NULL);
 }
 
+void EtatSymbolique::resetClocks(list<Variable> variables){
+    std::list<Variable>::iterator it;
+    for (it=variables.begin(); it!=variables.end(); ++it){
+        if(it->id() > etat->getNiveau()){
+            horloge.affine_image(*it, Linear_Expression(0));
+        }
+    }
+}
+
 
 void EtatSymbolique::futur(list<Variable> variables){
 	Constraint_System cs;
@@ -102,8 +111,13 @@ std::list<EtatSymbolique> EtatSymbolique::successeurs(std::list<Variable> variab
 			for(it2 = assignements.begin(); it2!=assignements.end(); ++it2){
                             NNC_Polyhedron nhorloge(successeur.getHorloge());
                             nhorloge.affine_image(it2->getVariable(), it2-> getExpression());
-				successeur.setHorloge(nhorloge);
+                            successeur.setHorloge(nhorloge);
 			}
+                        
+                        // Si la priorité de l'état successeur est inférieure à celle actuelle, il faut réinitialiser des horloges.
+                        if(succ->getNiveau() < etat->getNiveau()){
+                            successeur.resetClocks(variables);
+                        }
                         
                         successeur.futur(variables);
 			successeurs.push_back(successeur);

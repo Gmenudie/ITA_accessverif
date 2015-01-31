@@ -19,6 +19,7 @@ public :
 	std::list<EtatSymbolique> successeurs(std::list<Parma_Polyhedra_Library::Variable> variables);
 	bool inclus(EtatSymbolique es);
         bool hasPere();
+        void resetClocks(std::list<Parma_Polyhedra_Library::Variable> variables);
     
     //Getters
     Etat* getEtat();

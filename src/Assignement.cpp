@@ -27,7 +27,7 @@ Linear_Expression Assignement::getExpression(){
 }
 
 void Assignement::print(){
-    cout << "Assignment: x" << variable.space_dimension() << " = ";
+    cout << " x" << variable.space_dimension() << " = ";
     expression.print();
     
 }

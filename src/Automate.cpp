@@ -104,7 +104,7 @@ void Automate::print(){
     string filepath;
     
     cout << "\nPlease enter path to file to load: \n";
-    cin >> filepath;
+    getline (cin,filepath);
 
     //Ouvre le fichier
    
@@ -113,7 +113,7 @@ void Automate::print(){
     while (!myfile){
         cout << "Cannot open file " << filepath << endl;
         cout << "Please enter path to file to load: \n";
-        cin >> filepath;
+        getline (cin,filepath);
         cout << endl;
         myfile = fopen(filepath.c_str(), "r");
     }
@@ -188,8 +188,6 @@ bool Automate::verifieraccessibilite(list<EtatSymbolique> &chemin, bool ver){
             if(etatExamine->getEtat()->equals(*it)){
                 if(ver){
                     cout << "--> Final state found! \n";
-                    etatExamine->print();
-                    cout << endl;
                 }
                 final=true;
             }           
